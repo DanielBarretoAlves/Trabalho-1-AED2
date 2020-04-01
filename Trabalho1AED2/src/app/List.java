@@ -91,7 +91,21 @@ public class List {
         }
     }
 
-    
+    public String printList()
+    {
+        String message ="";
+        if (isEmpity()) {
+            message = "Erro a Lista é vazia";
+        }else{
+            Node current = this.first;
+            while (current != null)
+            {
+                message += current.getTb().getValor() + " ";
+                current = current.getNext();
+            }
+        }
+        return message;
+    }
 
 
 

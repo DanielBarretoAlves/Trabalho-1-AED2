@@ -11,4 +11,8 @@ public class TBlocos {
         this.val = val;
     }
 
+    public TBlocos(int val) {
+        this.val = val;
+    }
+
 }
