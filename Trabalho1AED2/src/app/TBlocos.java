@@ -1,14 +1,14 @@
 package app;
 
 public class TBlocos {
-    private int valor;
+    private int val;
 
     public int getValor() {
-        return valor;
+        return val;
     }
 
-    public void setValor(int valor) {
-        this.valor = valor;
+    public void setValor(int val) {
+        this.val = val;
     }
 
 }

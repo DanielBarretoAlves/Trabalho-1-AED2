@@ -35,7 +35,7 @@ public class List {
         this.qtd = qtd;
     }
 
-    public void insertFirst(TBlocos tb)//---------------------INSERT FIRST
+    public void insertFirst(TBlocos tb)// ---------------------INSERT FIRST
     {
         Node newNode = new Node(tb);
         if (isEmpity()) {
@@ -47,9 +47,50 @@ public class List {
 
     }
 
-    public boolean isEmpity(){return(this.first == null);}//-------------IS EMPITY
+    public boolean isEmpity() {
+        return (this.first == null);
+    }// -------------IS EMPITY
 
-    
+    public void insertLast(TBlocos tb) {
+        Node newNode = new Node(tb);
+        if (isEmpity()) {
+            this.first = newNode;
+        } else {
+            this.last.setNext(newNode);
 
-    
+        }
+        this.last = newNode;
+        this.qtd++;
+
+    }
+
+    public boolean removeNode(int val)
+    {
+        Node current = this.first;
+        Node preview = null;
+        if (isEmpity()) {
+            return false;
+        } else {
+            while (current != null && (current.getTb().getValor() != val)) {
+                preview = current;
+                current = current.getNext();
+            }
+            if (current == this.first) {
+                if (first == last) {
+                    this.last = null;
+                }
+                this.first = this.first.getNext();
+            } else {
+                if (current == this.last) {
+                    this.last = preview;
+                }
+                preview.setNext(current.getNext());
+            }
+            this.qtd--;
+            return true;
+        }
+    }
+
+
+
 }
