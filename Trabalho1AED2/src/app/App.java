@@ -53,14 +53,19 @@ public class App {
     public static int[][] getCommando(String file)
     {
         int[][] command = new int [getWorldSize(getFile())][4];
-        
+        String[] test = file.split(";");
+        for (int i = 0; i < command.length; i++) {
+            if ((i != 0) && (!test[i].equals("quit"))) {
+                System.out.println(test[i]);
+            }
+        }
         return command;
     }
 
 
     public static void main(String[] args) {
         
-        
+        getCommando(getFile());
          List[] table = new List[getWorldSize(getFile())];
          for (int i = 0; i < table.length; i++) {
              List list = new List();
@@ -75,6 +80,11 @@ public class App {
     }
 
 }
+
+
+// str1.contains("example")
+
+
 
 // String myStr = "Hello";
 // System.out.println(myStr.startsWith("Hel"));
