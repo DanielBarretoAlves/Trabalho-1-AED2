@@ -48,6 +48,20 @@ public class App {
         }
     }// ------------------------------------------SHOWALLLIST
 
+    public static void moveRobot(int a, int b, int action)
+    {
+        switch (action) {
+            case 1 :
+
+            
+                
+                break;
+        
+            default:
+                break;
+        }
+    }
+
     public static void getCommando(String file) {
         String[] command = file.split(";");
         for (int i = 0; i < command.length; i++) {
@@ -58,13 +72,16 @@ public class App {
                     if (test[j+2].contains("over")) {
                          int a = Integer.parseInt(test[j+1]);
                          int b = Integer.parseInt(test[j+3]);
+                         int action = 1;
+                         
+
                     }
                 }
             }
         }
 
 
-    }
+    }//-----------------------------------------GETCOMMANDO
 
     // return command;
     
