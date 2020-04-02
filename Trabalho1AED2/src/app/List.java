@@ -95,7 +95,7 @@ public class List {
     {
         String message ="";
         if (isEmpity()) {
-            message = "Erro a Lista é vazia";
+            message = "";
         }else{
             Node current = this.first;
             while (current != null)
