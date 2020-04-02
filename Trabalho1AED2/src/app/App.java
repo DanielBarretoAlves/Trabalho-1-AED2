@@ -6,85 +6,88 @@ import java.util.Scanner;
 
 public class App {
 
-    public static String getFile()
-    {
+    public static String getFile() {
         String content = "";
 
-        //---------------------------
+        // ---------------------------
         try {
             File myObj = new File("src/app/file.txt");
             Scanner myReader = new Scanner(myObj);
             // int index =0;
             while (myReader.hasNextLine()) {
-              
-                    String data = myReader.nextLine();
-                    // size = Integer.parseInt(data);
-                    content += data + ";";
-                    // return size;
-                
+
+                String data = myReader.nextLine();
+                // size = Integer.parseInt(data);
+                content += data + ";";
+                // return size;
+
             }
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        //---------------------------
+        // ---------------------------
 
         return content;
     }
 
-    public static int getWorldSize(String file)
-    {
-        int size=0;
+    public static int getWorldSize(String file) {
+        int size = 0;
         String[] transcript = file.split(";");
 
         size = Integer.parseInt(transcript[0]);
-        
+
         return size;
 
-    }//-----------------------------------------------------------WORLD SIZE
+    }// -----------------------------------------------------------WORLD SIZE
 
     public static void showAllLists(List[] list) {
         for (int i = 0; i < list.length; i++) {
             System.out.println(i + "|" + list[i].printList());
         }
-    }//------------------------------------------SHOWALLLIST
+    }// ------------------------------------------SHOWALLLIST
 
-    public static int[][] getCommando(String file)
-    {
-        int[][] command = new int [getWorldSize(getFile())][4];
-        String[] test = file.split(";");
+    public static void getCommando(String file) {
+        String[] command = file.split(";");
         for (int i = 0; i < command.length; i++) {
-            if ((i != 0) && (!test[i].equals("quit"))) {
-                System.out.println(test[i]);
+            String[] test = command[i].split(" ");
+            for (int j = 0; j < test.length; j++) {
+                System.out.println(test[j]);
+                if (test[j].contains("move")) {
+                    if (test[j+2].contains("over")) {
+                         int a = Integer.parseInt(test[j+1]);
+                         int b = Integer.parseInt(test[j+3]);
+                    }
+                }
             }
         }
-        return command;
+
+
     }
 
+    // return command;
+    
 
     public static void main(String[] args) {
-        
-        getCommando(getFile());
-         List[] table = new List[getWorldSize(getFile())];
-         for (int i = 0; i < table.length; i++) {
-             List list = new List();
-             TBlocos tb = new TBlocos(i);
-             list.insertLast(tb);
-             table[i] = list;
-         }
 
-        
-        showAllLists(table);
+        getCommando(getFile());
+        List[] table = new List[getWorldSize(getFile())];
+        for (int i = 0; i < table.length; i++) {
+            List list = new List();
+            TBlocos tb = new TBlocos(i);
+            list.insertLast(tb);
+            table[i] = list;
+        }
+
+        // showAllLists(table);
+        // System.out.println(getFile().length());
 
     }
 
 }
 
-
 // str1.contains("example")
-
-
 
 // String myStr = "Hello";
 // System.out.println(myStr.startsWith("Hel"));
