@@ -30,9 +30,30 @@ public class App {
         }
         return size;
 
+    }//-----------------------------------------------------------WORLD SIZE
+
+    public static void showAllLists(List[] list) {
+        for (int i = 0; i < list.length; i++) {
+            System.out.println(i + "|" + list[i].printList());
+        }
     }
+
+
+
+
     public static void main(String[] args) {
-        System.out.println(getWorldSize());
+        System.out.println();
+        List[] table = new List[getWorldSize()];
+        for (int i = 0; i < table.length; i++) {
+            List list = new List();
+            TBlocos tb = new TBlocos(i);
+            list.insertLast(tb);
+            table[i] = list;
+        }
+
+        
+        showAllLists(table);
+
     }
 
 }
