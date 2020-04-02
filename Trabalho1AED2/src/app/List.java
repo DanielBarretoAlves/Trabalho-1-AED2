@@ -107,6 +107,19 @@ public class List {
         return message;
     }
 
+    public boolean search(int val){
+        Node current = this.first;
+        while ((current != null))  {
+            if (current.getTb().getValor() == val) {
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
+        
+    }//---------------------------------------------------------------------SEARCH
+
+   
 
 
 }

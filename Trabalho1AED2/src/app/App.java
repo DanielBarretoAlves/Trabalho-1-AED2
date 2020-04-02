@@ -6,21 +6,21 @@ import java.util.Scanner;
 
 public class App {
 
-    public static int getWorldSize()
+    public static String getFile()
     {
-        int size=0;
+        String content = "";
+
+        //---------------------------
         try {
             File myObj = new File("src/app/file.txt");
             Scanner myReader = new Scanner(myObj);
-            int index =0;
+            // int index =0;
             while (myReader.hasNextLine()) {
-                if (index==0) {
+              
                     String data = myReader.nextLine();
-                    size = Integer.parseInt(data);
-                    myReader.close();
-                    return size;
-                }
-                
+                    // size = Integer.parseInt(data);
+                    content += data + ";";
+                    // return size;
                 
             }
             myReader.close();
@@ -28,6 +28,18 @@ public class App {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        //---------------------------
+
+        return content;
+    }
+
+    public static int getWorldSize(String file)
+    {
+        int size=0;
+        String[] transcript = file.split(";");
+
+        size = Integer.parseInt(transcript[0]);
+        
         return size;
 
     }//-----------------------------------------------------------WORLD SIZE
@@ -36,20 +48,26 @@ public class App {
         for (int i = 0; i < list.length; i++) {
             System.out.println(i + "|" + list[i].printList());
         }
+    }//------------------------------------------SHOWALLLIST
+
+    public static int[][] getCommando(String file)
+    {
+        int[][] command = new int [getWorldSize(getFile())][4];
+        
+        return command;
     }
 
 
-
-
     public static void main(String[] args) {
-        System.out.println();
-        List[] table = new List[getWorldSize()];
-        for (int i = 0; i < table.length; i++) {
-            List list = new List();
-            TBlocos tb = new TBlocos(i);
-            list.insertLast(tb);
-            table[i] = list;
-        }
+        
+        
+         List[] table = new List[getWorldSize(getFile())];
+         for (int i = 0; i < table.length; i++) {
+             List list = new List();
+             TBlocos tb = new TBlocos(i);
+             list.insertLast(tb);
+             table[i] = list;
+         }
 
         
         showAllLists(table);
