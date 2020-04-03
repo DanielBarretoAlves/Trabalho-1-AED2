@@ -66,22 +66,44 @@ public class App {
     }
 
     public static void sendAbove(List[] table, int val, int b) {
-        // a b table
-        // pegar a table a ver tudo que está a cima do val e mandar para b
         boolean sent = false;
         while (sent != true) {
-            if (table[val].getLast().getTb().getValor() != val) {
-                int posA = table[val].getLast().getTb().getValor();
-                if (table[val].getFirst().getTb().getValor() == val && table[val].isLast(val)) {
-                    System.out.println("Aqui vai");
-                }
-                TBlocos tb = new TBlocos(posA);
-                table[posA].insertFirst(tb);
-            } else {
-                sent = true;
-            }
+            System.out.println("entra no loop");
+           if (!table[val].isLast(val)) {
+               System.out.println("falta remover ainda");
+               sent = true;
+               int outro = table[val].getLast().getTb().getValor();
+               TBlocos tb = new TBlocos(outro);
+               table[b].insertAt(tb);
+               table[val].removeNode(outro);
+               System.out.println("inseri no outro" + outro);
+               System.out.println("tem que sair só no else desse if aqui");
+               
+           }else{
+            sent = true;
+           }
+           
         }
 
+    }
+
+    public static void insertAfter(List[] table, int a, int b, int pos)
+    {
+        table[pos].removeNode(a);
+        TBlocos tb = new TBlocos(a);
+        table[b].insertAt(tb);
+    }
+    public static void pileOver(int a, int b, List[] table) {
+        int listA = 0, listB = 0;
+        for (int i = 0; i < table.length; i++) {
+            if (table[i].search(a)) {
+                listA = i;
+            }
+            if (table[i].search(b)) {
+                listB = i;
+            }
+        }
+        insertAfter(table, a, b,listA);
     }
 
     public static void pileOnto(int a, int b, List[] table) {
@@ -265,7 +287,7 @@ public class App {
         System.out.println("-----------------------");
         moveOver(1, 2, table);
         showAllLists(table);
-        pileOnto(2, 0, table);
+        pileOver(2, 0, table);
         showAllLists(table);
 
     }

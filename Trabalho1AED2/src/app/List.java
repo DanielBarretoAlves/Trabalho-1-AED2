@@ -65,8 +65,7 @@ public class List {
 
     }
 
-    public boolean removeNode(int val)
-    {
+    public boolean removeNode(int val) {
         Node current = this.first;
         Node preview = null;
         if (isEmpity()) {
@@ -92,15 +91,13 @@ public class List {
         }
     }
 
-    public String printList()
-    {
-        String message ="";
+    public String printList() {
+        String message = "";
         if (isEmpity()) {
             message = "";
-        }else{
+        } else {
             Node current = this.first;
-            while (current != null)
-            {
+            while (current != null) {
                 message += current.getTb().getValor() + " ";
                 current = current.getNext();
             }
@@ -108,34 +105,85 @@ public class List {
         return message;
     }
 
-    public boolean search(int val){
+    public boolean search(int val) {
         Node current = this.first;
-        while ((current != null))  {
+        while ((current != null)) {
             if (current.getTb().getValor() == val) {
                 return true;
             }
             current = current.getNext();
         }
         return false;
-        
-    }//---------------------------------------------------------------------SEARCH
 
-    public boolean isLast(int val)
-    {
-        TBlocos tb = new TBlocos(val);
-        Node current = new Node(tb);
-        if (current.getTb().getValor() == this.last.getTb().getValor()) {
-            System.out.println("true");
+    }// ---------------------------------------------------------------------SEARCH
+
+    public boolean isLast(int val) {
+        if (this.last.getTb().getValor() == val) {
             return true;
-        }else{
-            System.out.println("false");
-            return false;
-            
         }
+        return false;
 
     }
 
-   
+    public Node getSelected(int sel) {
+        TBlocos tb = new TBlocos(sel);
+        Node newNode = first;
+
+        while ((newNode != null)) {
+            if (newNode.getTb().getValor() == sel) {
+                return newNode;
+            }
+            newNode = newNode.getNext();
+        }
+        return null;
+
+    }
+
+    public Node getNextSelected(int sel) {
+        TBlocos tb = new TBlocos(sel);
+        Node newNode = first;
+
+        while ((newNode != null)) {
+            if (newNode.getTb().getValor() == sel) {
+                newNode = newNode.getNext();
+                return newNode;
+            }
+            newNode = newNode.getNext();
+        }
+        System.out.println("vai da null");
+        return null;
+    }
+
+    public void insertAt(TBlocos tb)// ---------------------INSERT AT
+    {
+        Node newNode = new Node(tb);
+        Node aux = this.first;
+        if (aux == null) {
+            System.out.println("Null");
+        }else{
+            System.out.println("não null");
+            System.out.println(aux.getTb().getValor());
+            if (aux.getNext() != null) {
+                System.out.println("tem vizinho");
+                newNode.setNext(aux.getNext());
+                System.out.println("new Node é "+ newNode.getTb().getValor());
+                aux.setNext(newNode);
+            }else{
+                aux.setNext(newNode);
+                this.setLast(newNode);
+            }
+            
+        }
+    
+    }
+
+    
+
+
+
+
+
+
 
 
 }
