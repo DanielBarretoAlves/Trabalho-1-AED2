@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 public class App {
 
     public static String getFile() {
@@ -13,13 +11,13 @@ public class App {
 
         // ---------------------------
         try {
-            File myObj = new File("src/app/file.txt");
+            File myObj = new File("src/app/file2.txt");
             Scanner myReader = new Scanner(myObj);
             // int index =0;
             while (myReader.hasNextLine()) {
 
                 String data = myReader.nextLine();
-                // size = Integer.parseInt(data);
+                System.out.println(data);
                 content += data + ";";
                 // return size;
 
@@ -39,6 +37,7 @@ public class App {
         String[] transcript = file.split(";");
 
         size = Integer.parseInt(transcript[0]);
+        // System.out.println("Size: " +size);
 
         return size;
 
@@ -65,9 +64,20 @@ public class App {
 
     }
 
-    public static int getPos(List[] table, int x)
+    public static int getBigggestList(List[] table)
     {
-        int pos=0;
+        int s = 0;
+        for (int i = 0; i < table.length; i++) {
+            if (table[i].getQtd() > s) {
+                s = table[i].getQtd();
+            }
+            
+        }
+        return s;
+    }
+
+    public static int getPos(List[] table, int x) {
+        int pos = 0;
         for (int i = 0; i < table.length; i++) {
             if (table[i].search(x)) {
                 pos = i;
@@ -76,47 +86,42 @@ public class App {
         return pos;
     }
 
-    public static void pileOver(List[] table, int a, int b) {
-        System.out.println("pile " +a+ " over " +b);
-        int posB =getPos(table, b);
+    public static void sendAllBack(List[] table, int x, int target) {
 
-        while (!table[a].isLast(a) && (!table[a].isEmpity())) {
-            // System.out.println("entrou no loop");
-            int next = a;
-            if (table[a].getLast() != null) {
-                 next = table[a].getAfter(a);
-                //  System.out.println("entrou no if next é " + next);
+        if (!table[target].isEmpity() && (!table[target].isLast(target))) {
+
+            while (table[target].getFirst().getTb().getValor() != table[target].getLast().getTb().getValor()) {
+                int last = table[target].getLast().getTb().getValor();
+                TBlocos tb = new TBlocos(last);
+                table[last].insertFirst(tb);
+                table[x].removeNode(last);
             }
-            TBlocos tb = new TBlocos(next);
-            table[posB].insertAt(tb);
-            // System.out.println("Inseriu na table b "+table[b].printList());
-            table[a].removeNode(next);
-
         }
-         TBlocos tb = new TBlocos(a);
-         table[posB].insertAt(tb);
-         table[a].removeNode(a);
+
     }
 
-    public static void pileOnto(List[] table, int a, int b) {
-        System.out.println("pile " +a+" onto " +b);
+    public static void moveOnto(List[] table, int a, int b)// -----------MOVEONTO
+    {
+        int posA = getPos(table, a);
         int posB = getPos(table, b);
-        while (!table[posB].isLast(b)) {
-            // verificando removendo e reposicionando os elementos adjacentes
-            int last = table[posB].getLast().getTb().getValor();
-            TBlocos tb = new TBlocos(last);
-            table[last].insertFirst(tb);
-            table[b].removeNode(last);
-        }
-        while (!table[a].isLast(a)) {
-            int last = table[a].getLast().getTb().getValor();
-            TBlocos tb = new TBlocos(last);
-            table[posB].insertAt(tb);
-        }
-        table[a].removeNode(a);
+        // Passo 1 tirar tudo de cima do a
+        sendAllBack(table, a, posA);
+        // Passo 2 tirar tudo de cima do b
+        sendAllBack(table, b, posB);
         TBlocos tb = new TBlocos(a);
-        table[posB].insertAt(tb);
+        table[posB].insertLast(tb);
+        table[posA].removeNode(a);
+    }
 
+    public static void moveOver(List[] table, int a, int b)// -----------MOVEOVER
+    {
+        int posA = getPos(table, a);
+        int posB = getPos(table, b);
+        // Passo 1 tirar tudo de cima do a
+        sendAllBack(table, a, posA);
+        TBlocos tb = new TBlocos(a);
+        table[posB].insertLast(tb);
+        table[posA].removeNode(a);
     }
 
     public static void sendAbove(List[] table, int a, int b) {
@@ -137,59 +142,159 @@ public class App {
 
     }
 
+    public static void sendPile(List[] table, int target, int val, int goal) {
+        System.out.println(table[target].getLast().getTb().getValor());
+        TBlocos tb = new TBlocos(val);
+        table[goal].insertLast(tb);
+        while (table[target].getLast().getTb().getValor() != target) {
+
+            int sender = table[target].getLast().getTb().getValor();
+            TBlocos tb1 = new TBlocos(sender);
+            table[goal].insertLast(tb1);
+            table[target].removeNode(sender);
+        }
+    }
+
+    public static void pileOnto(List[] table, int a, int b)// -------------------------PILE ONTO
+    {
+        int posA = getPos(table, a);
+        int posB = getPos(table, b);
+        // Passo A limpar o b
+        sendAllBack(table, b, posB);
+        sendPile(table, posA, a, posB);
+        table[a].removeNode(a);
+    }
+
+    public static void pileOver(List[] table, int a, int b)// -------------------------PILE OVER
+    {
+        int posA = getPos(table, a);
+        int posB = getPos(table, b);
+        sendPile(table, posA, a, posB);
+        table[a].removeNode(a);
+        
+
+    }
+
     public static void insertAfter(List[] table, int a, int b, int pos) {
         table[pos].removeNode(a);
         TBlocos tb = new TBlocos(a);
         table[b].insertAt(tb);
     }
 
-    public static void getCommando(String file) {
-        String[] command = file.split(";");
-        for (int i = 0; i < command.length; i++) {
-            String[] test = command[i].split(" ");
-            for (int j = 0; j < test.length; j++) {
-                // System.out.println(test[j]);
-                if (test[j].contains("move")) {
-                    if (test[j + 2].contains("over")) {
-                        int a = Integer.parseInt(test[j + 1]);
-                        int b = Integer.parseInt(test[j + 3]);
-                        int action = 1;
+    public static void readCommando(int[][] commandos, List[] table) {
+        for (int i = 0; i < commandos.length; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (j == 0 && i > 0 && i < (commandos.length - 1)) {
+                    switch (commandos[i][j]) {
+                        case 1:
+                            moveOver(table, commandos[i][1], commandos[i][2]);
+
+                            break;
+                        case 2:
+                            moveOnto(table, commandos[i][1], commandos[i][2]);
+
+                            break;
+                        case 3:
+                            pileOver(table, commandos[i][1], commandos[i][2]);
+
+                            break;
+                        case 4:
+                            pileOnto(table, commandos[i][1], commandos[i][2]);
+
+                            break;
+
+                        default:
+                            break;
                     }
                 }
             }
         }
+    }
 
-    }// -----------------------------------------GETCOMMANDO
+    public static int[][] getCommando(String file) {
+        String[] command = file.split(";");
+        int[][] action = new int[command.length][3];
+        for (int i = 0; i < command.length; i++) {
+            String[] test = command[i].split(" ");
+            for (int j = 0; j < test.length; j++) {
+                // System.out.println(test[j]);
+                if (i == 0) {
+                    action[i][0] = 9;
+                }
+                if (test[j].contains("move")) {
+                    if (test[j + 2].contains("over")) {
+                        int a = Integer.parseInt(test[j + 1]);
+                        int b = Integer.parseInt(test[j + 3]);
+                        action[i][0] = 1;
+                        action[i][1] = a;
+                        action[i][2] = b;
+                    } else if (test[j + 2].contains("onto")) {
+                        int a = Integer.parseInt(test[j + 1]);
+                        int b = Integer.parseInt(test[j + 3]);
+                        action[i][0] = 2;
+                        action[i][1] = a;
+                        action[i][2] = b;
+                    }
+                } else if (test[j].contains("pile")) {
+                    if (test[j + 2].contains("over")) {
+                        int a = Integer.parseInt(test[j + 1]);
+                        int b = Integer.parseInt(test[j + 3]);
+                        action[i][0] = 3;
+                        action[i][1] = a;
+                        action[i][2] = b;
+                    } else if (test[j + 2].contains("onto")) {
+                        int a = Integer.parseInt(test[j + 1]);
+                        int b = Integer.parseInt(test[j + 3]);
+                        action[i][0] = 4;
+                        action[i][1] = a;
+                        action[i][2] = b;
+                    }
+                } else if (test[j].contains("quit")) {
 
-    // return command;
+                    action[i][0] = 9;
+                    break;
+                }
+            }
+        }
+        return action;
+
+    }
 
     public static void main(String[] args) {
 
         // TBlocos tb = new TBlocos(1);
 
         // list.printList();
-        getCommando(getFile());
+        // getCommando(getFile());
         List[] table = new List[getWorldSize(getFile())];
         for (int i = 0; i < table.length; i++) {
             table[i] = new List();
             TBlocos tb = new TBlocos(i);
             table[i].insertLast(tb);
-            // System.out.println(table[i].printList());
         }
-        // System.out.println("Hello " +table[0].getLast().getTb().getValor());
-        // moveOver(1, 2, table);
-        // moveOver(4, 0, table);
-        showAllLists(table);
-        System.out.println("-----------------------");
-       
-        showAllLists(table);
-        // pileOver(table, 2, 0);
-        pileOnto(table, 0, 3);
-        pileOver(table, 3, 2);
-        pileOver(table, 4, 2);
-        pileOver(table, 1, 2);
 
-        showAllLists(table);
+        //  moveOnto(table, 4, 0);
+        //  moveOnto(table, 1, 2);
+        //  moveOver(table, 2, 0);
+        //  moveOver(table, 3, 1);
+        // // showAllLists(table);
+        // pileOnto(table, 1, 0);
+        // showAllLists(table);
+
+        //------------------------------------------
+         int[][] test = getCommando(getFile());
+         readCommando(test, table);
+         showAllLists(table);
+        //----------------------------------------------
+
+        System.out.println(getFile());
+
+        // for (int i = 0; i < test.length; i++) {
+        // for (int j = 0; j < 3; j++) {
+        // System.out.print(test[i][j]);
+        // }
+        // System.out.println(" ");
+        // }
 
     }
 
@@ -210,7 +315,3 @@ public class App {
 // Pile Onto = oq está no b volta
 // Pile over = poem a sobre b sem voltar ninguem
 
-// move = 1
-// pile = 2
-// over = 1
-// onto = 2
