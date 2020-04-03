@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 public class App {
 
     public static String getFile() {
@@ -48,18 +50,83 @@ public class App {
         }
     }// ------------------------------------------SHOWALLLIST
 
-    public static void moveRobot(int a, int b, int action)
-    {
-        switch (action) {
-            case 1 :
+    public static void cleanList(List[] table, int val) {
 
-            
-                
-                break;
-        
-            default:
-                break;
+        System.out.println("entrou");
+        for (int i = 0; i < table.length; i++) {
+            if (!table[i].isEmpity()){
+                // System.out.println("n é vazia");
+                if (table[i].getLast().getTb().getValor() != i) {
+                    System.out.println(i+ " tem um final diferente do index " +table[i].getLast().getTb().getValor());
+                    
+                    if (table[i].search(val)) {
+                        System.out.println("olha eu aqui " + val);
+                        System.out.println("Gatcha " +table[val].getLast().getTb().getValor());
+                        int back = table[val].getLast().getTb().getValor();
+                        TBlocos tb = new TBlocos(back);
+                        table[back].insertFirst(tb);
+                        System.out.println("- "+table[back].printList());
+                    }
+                }else{
+                   
+                }
+            }else{
+                System.out.println(i+ " é vaiza");
+            }
         }
+
+    }
+
+    public static void moveOver(int a, int b, List[] table) {
+        int i = 0;
+        System.out.println("Move " + a + " over " + b);
+        System.out.println("----------------------------------------------");
+        while (i < table.length) {
+            // System.out.println("Val i : " + i);
+            if (table[i].search(a)) {
+                System.out.println("Search is " + table[i].search(a));
+                System.out.println("it will remove " +a);
+                //TOTHINK table[i].removeNode(a);
+                System.out.println("Onde Apagar: "+ table[i].printList());
+                System.out.println("VAl" + a);
+                System.out.println("Home " + i);
+                System.out.println("Last "+ table[i].getLast().getTb().getValor());
+                if (a == table[i].getLast().getTb().getValor()) {
+                    System.out.println("A é igual ao ultimo do " + i);
+                    table[i].removeNode(a);
+                }else{
+                    System.out.println("A não é igual ao ultimo");
+                    int posIn= table[i].getLast().getTb().getValor();
+                    table[i].getLast();
+                    // cleanList(table, a);
+
+
+
+                }
+                // System.out.println("i = " + i + " A Val: " + a);
+
+
+                // if (!table[i].isEmpity()) {
+                    
+                //     System.out.println("Table is not empity");
+                //     // ------------------------FOCUS TODO
+                //     if (table[i].getLast().getTb().getValor() == a) {
+                //         System.out.println("É Igual");
+                //     } else {
+
+                //         cleanList(table, a);
+                //     }
+                // }
+            }
+            if (table[i].search(b)) {
+                System.out.println("b is true in " + i);
+                TBlocos tb = new TBlocos(a);
+                table[i].insertLast(tb);
+
+            }
+            i++;
+        }
+
     }
 
     public static void getCommando(String file) {
@@ -67,38 +134,47 @@ public class App {
         for (int i = 0; i < command.length; i++) {
             String[] test = command[i].split(" ");
             for (int j = 0; j < test.length; j++) {
-                System.out.println(test[j]);
+                // System.out.println(test[j]);
                 if (test[j].contains("move")) {
-                    if (test[j+2].contains("over")) {
-                         int a = Integer.parseInt(test[j+1]);
-                         int b = Integer.parseInt(test[j+3]);
-                         int action = 1;
-                         
-
+                    if (test[j + 2].contains("over")) {
+                        int a = Integer.parseInt(test[j + 1]);
+                        int b = Integer.parseInt(test[j + 3]);
+                        int action = 1;
                     }
                 }
             }
         }
 
-
-    }//-----------------------------------------GETCOMMANDO
+    }// -----------------------------------------GETCOMMANDO
 
     // return command;
-    
 
     public static void main(String[] args) {
 
+        // TBlocos tb = new TBlocos(1);
+
+        // list.printList();
         getCommando(getFile());
         List[] table = new List[getWorldSize(getFile())];
         for (int i = 0; i < table.length; i++) {
-            List list = new List();
+            table[i] = new List();
             TBlocos tb = new TBlocos(i);
-            list.insertLast(tb);
-            table[i] = list;
+            table[i].insertLast(tb);
+            System.out.println(table[i].printList());
         }
+        // System.out.println("Hello " +table[0].getLast().getTb().getValor());
+        // moveOver(1, 2, table);
+        moveOver(1, 3, table);
+        showAllLists(table);
 
-        // showAllLists(table);
-        // System.out.println(getFile().length());
+        System.out.println("-----------------------");
+
+        moveOver(3, 2, table);
+        showAllLists(table);
+        moveOver(2,1,table);
+        showAllLists(table);
+
+      
 
     }
 

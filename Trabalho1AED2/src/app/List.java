@@ -38,11 +38,12 @@ public class List {
     public void insertFirst(TBlocos tb)// ---------------------INSERT FIRST
     {
         Node newNode = new Node(tb);
-        if (isEmpity()) {
+        if (this.isEmpity()) {
             this.last = newNode;
 
         }
         newNode.setNext(this.first);
+        this.first = newNode;
         this.qtd++;
 
     }
@@ -118,6 +119,21 @@ public class List {
         return false;
         
     }//---------------------------------------------------------------------SEARCH
+
+    public boolean isLast(int val)
+    {
+        TBlocos tb = new TBlocos(val);
+        Node current = new Node(tb);
+        if (current.getTb().getValor() == this.last.getTb().getValor()) {
+            System.out.println("true");
+            return true;
+        }else{
+            System.out.println("false");
+            return false;
+            
+        }
+
+    }
 
    
 
