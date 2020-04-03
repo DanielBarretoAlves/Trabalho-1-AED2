@@ -64,41 +64,69 @@ public class App {
         }
 
     }
-    
-    public static void pileOver2(List[] table, int a, int b)
+
+    public static int getPos(List[] table, int x)
     {
-        System.out.println("entrou");
-        if (!table[a].isEmpity()) {
-            System.out.println("n e´vazio");
-            int next;
-            boolean done = false;
-            while (done != true) {
-                System.out.println("entrou no loop");
-                if (!table[a].isLast(a)) {
-                    System.out.println("a n é o ultimo");
-                   next = table[a].getAfter(a);
-                   TBlocos tb = new TBlocos(next);
-                   table[b].insertLast(tb);
-                   table[a].removeNode(next);
-                }else{
-                    TBlocos tb = new TBlocos(a);
-                    table[b].insertLast(tb);
-                   table[a].removeNode(a);
-                    done = true;
-                }
-                
+        int pos=0;
+        for (int i = 0; i < table.length; i++) {
+            if (table[i].search(x)) {
+                pos = i;
             }
-            
         }
+        return pos;
     }
+
+    public static void pileOver(List[] table, int a, int b) {
+        System.out.println("pile " +a+ " over " +b);
+        int posB =getPos(table, b);
+
+        while (!table[a].isLast(a) && (!table[a].isEmpity())) {
+            // System.out.println("entrou no loop");
+            int next = a;
+            if (table[a].getLast() != null) {
+                 next = table[a].getAfter(a);
+                //  System.out.println("entrou no if next é " + next);
+            }
+            TBlocos tb = new TBlocos(next);
+            table[posB].insertAt(tb);
+            // System.out.println("Inseriu na table b "+table[b].printList());
+            table[a].removeNode(next);
+
+        }
+         TBlocos tb = new TBlocos(a);
+         table[posB].insertAt(tb);
+         table[a].removeNode(a);
+    }
+
+    public static void pileOnto(List[] table, int a, int b) {
+        System.out.println("pile " +a+" onto " +b);
+        int posB = getPos(table, b);
+        while (!table[posB].isLast(b)) {
+            // verificando removendo e reposicionando os elementos adjacentes
+            int last = table[posB].getLast().getTb().getValor();
+            TBlocos tb = new TBlocos(last);
+            table[last].insertFirst(tb);
+            table[b].removeNode(last);
+        }
+        while (!table[a].isLast(a)) {
+            int last = table[a].getLast().getTb().getValor();
+            TBlocos tb = new TBlocos(last);
+            table[posB].insertAt(tb);
+        }
+        table[a].removeNode(a);
+        TBlocos tb = new TBlocos(a);
+        table[posB].insertAt(tb);
+
+    }
+
     public static void sendAbove(List[] table, int a, int b) {
         boolean sent = false;
         int next;
         if (!table[a].isEmpity()) {
-            //não pode estar vazia
+            // não pode estar vazia
             if (!table[a].isLast(a)) {
-                //o ultimo não é a
-                
+                // o ultimo não é a
+
                 next = table[a].getAfter(a);
                 // System.out.println("hey "+next);
                 TBlocos tb = new TBlocos(b);
@@ -106,168 +134,13 @@ public class App {
                 table[a].removeNode(next);
             }
         }
-        
+
     }
 
-    public static void insertAfter(List[] table, int a, int b, int pos)
-    {
+    public static void insertAfter(List[] table, int a, int b, int pos) {
         table[pos].removeNode(a);
         TBlocos tb = new TBlocos(a);
         table[b].insertAt(tb);
-    }
-    public static void pileOver(int a, int b, List[] table) {
-        int listA = 0, listB = 0;
-        for (int i = 0; i < table.length; i++) {
-            if (table[i].search(a)) {
-                listA = i;
-            }
-            if (table[i].search(b)) {
-                listB = i;
-            }
-        }
-        // insertAfter(table, a, b,listA);
-        sendAbove(table, a, b);
-    }
-
-    public static void pileOnto(int a, int b, List[] table) {
-        int i = 0;
-        int aPos;
-        System.out.println("pile " + a + " onto " + b);
-        System.out.println("----------------------------------------------");
-        while (i < table.length) {
-            // System.out.println("Val i : " + i);
-            if (table[i].search(a)) {
-
-                if (a == table[i].getLast().getTb().getValor()) {
-                    table[i].removeNode(a);
-                } else {
-                    // System.out.println("A não é igual ao ultimo");
-                    int pos = table[i].getLast().getTb().getValor();
-                    table[i].getLast();
-                    // cleanList(table, a, pos);
-                    // TODO: Tudo que está em cima volta
-                    sendAbove(table, a, b);
-
-                    aPos = i;
-
-                    table[i].removeNode(a);
-                    // casa que era antes e valor
-
-                }
-
-            }
-            if (table[i].search(b)) {
-                // System.out.println("b is true in " + i);
-                TBlocos tb = new TBlocos(a);
-                if (table[i].getLast().getTb().getValor() == b) {
-
-                } else {
-                    cleanList(table, b, i);
-
-                }
-                table[i].insertLast(tb);
-
-            }
-            i++;
-        }
-
-    }
-
-    public static void moveOnto(int a, int b, List[] table) {
-        int i = 0;
-        System.out.println("Move " + a + " onto " + b);
-        System.out.println("----------------------------------------------");
-        while (i < table.length) {
-            // System.out.println("Val i : " + i);
-            if (table[i].search(a)) {
-                // System.out.println("Search is " + table[i].search(a));
-                // System.out.println("it will remove " +a);
-                // TOTHINK table[i].removeNode(a);
-                // System.out.println("Onde Apagar: "+ table[i].printList());
-                // System.out.println("VAl" + a);
-                // System.out.println("Home " + i);
-                // System.out.println("Last "+ table[i].getLast().getTb().getValor());
-                if (a == table[i].getLast().getTb().getValor()) {
-                    // System.out.println("A é igual ao ultimo do " + i);
-                    table[i].removeNode(a);
-                } else {
-                    // System.out.println("A não é igual ao ultimo");
-                    int pos = table[i].getLast().getTb().getValor();
-                    table[i].getLast();
-                    cleanList(table, a, pos);
-
-                    table[i].removeNode(a);
-                    // casa que era antes e valor
-
-                }
-
-            }
-            if (table[i].search(b)) {
-                // System.out.println("b is true in " + i);
-                TBlocos tb = new TBlocos(a);
-                if (table[i].getLast().getTb().getValor() == b) {
-
-                } else {
-                    cleanList(table, b, i);
-
-                }
-                table[i].insertLast(tb);
-
-            }
-            i++;
-        }
-
-    }
-
-    public static void moveOver(int a, int b, List[] table) {
-        int i = 0;
-        System.out.println("Move " + a + " over " + b);
-        System.out.println("----------------------------------------------");
-        while (i < table.length) {
-            // System.out.println("Val i : " + i);
-            if (table[i].search(a)) {
-                // System.out.println("Search is " + table[i].search(a));
-                // System.out.println("it will remove " +a);
-                // TOTHINK table[i].removeNode(a);
-                // System.out.println("Onde Apagar: "+ table[i].printList());
-                // System.out.println("VAl" + a);
-                // System.out.println("Home " + i);
-                // System.out.println("Last "+ table[i].getLast().getTb().getValor());
-                if (a == table[i].getLast().getTb().getValor()) {
-                    // System.out.println("A é igual ao ultimo do " + i);
-                    table[i].removeNode(a);
-                } else {
-                    // System.out.println("A não é igual ao ultimo");
-                    int pos = table[i].getLast().getTb().getValor();
-                    table[i].getLast();
-                    cleanList(table, a, pos);
-                    table[i].removeNode(a);
-                    // casa que era antes e valor
-
-                }
-                // System.out.println("i = " + i + " A Val: " + a);
-
-                // if (!table[i].isEmpity()) {
-
-                // System.out.println("Table is not empity");
-                // // ------------------------FOCUS TODO
-                // if (table[i].getLast().getTb().getValor() == a) {
-                // System.out.println("É Igual");
-                // } else {
-
-                // cleanList(table, a);
-                // }
-                // }
-            }
-            if (table[i].search(b)) {
-                // System.out.println("b is true in " + i);
-                TBlocos tb = new TBlocos(a);
-                table[i].insertLast(tb);
-
-            }
-            i++;
-        }
-
     }
 
     public static void getCommando(String file) {
@@ -305,12 +178,17 @@ public class App {
         }
         // System.out.println("Hello " +table[0].getLast().getTb().getValor());
         // moveOver(1, 2, table);
-        moveOver(4, 0, table);
+        // moveOver(4, 0, table);
         showAllLists(table);
         System.out.println("-----------------------");
-        moveOver(1, 2, table);
+       
         showAllLists(table);
-        pileOver2(table, 2, 0);
+        // pileOver(table, 2, 0);
+        pileOnto(table, 0, 3);
+        pileOver(table, 3, 2);
+        pileOver(table, 4, 2);
+        pileOver(table, 1, 2);
+
         showAllLists(table);
 
     }

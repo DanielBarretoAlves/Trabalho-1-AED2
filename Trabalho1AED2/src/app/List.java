@@ -141,7 +141,7 @@ public class List {
         if (current.getNext() != null) {
             return current.getNext().getTb().getValor();
         }
-        System.out.println("Esse é o ultimo");
+        // System.out.println("Esse é o ultimo");
         return current.getTb().getValor();
 
     }
@@ -171,7 +171,7 @@ public class List {
             }
             newNode = newNode.getNext();
         }
-        System.out.println("vai da null");
+        // System.out.println("vai da null");
         return null;
     }
 
@@ -180,14 +180,14 @@ public class List {
         Node newNode = new Node(tb);
         Node aux = this.first;
         if (aux == null) {
-            System.out.println("Null");
+            // System.out.println("Null");
         } else {
-            System.out.println("não null");
-            System.out.println(aux.getTb().getValor());
+            // System.out.println("não null");
+            // System.out.println(aux.getTb().getValor());
             if (aux.getNext() != null) {
-                System.out.println("tem vizinho");
+                // System.out.println("tem vizinho");
                 newNode.setNext(aux.getNext());
-                System.out.println("new Node é " + newNode.getTb().getValor());
+                // System.out.println("new Node é " + newNode.getTb().getValor());
                 aux.setNext(newNode);
             } else {
                 aux.setNext(newNode);
