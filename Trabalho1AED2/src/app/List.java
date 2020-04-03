@@ -125,6 +125,27 @@ public class List {
 
     }
 
+    public boolean isFirst(int val) {
+        if (this.first.getTb().getValor() == val) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public int getAfter(int val) {
+        Node current = this.first;
+        while (current != null && current.getTb().getValor() != val){
+            current = current.getNext();
+        }
+        if (current.getNext() != null) {
+            return current.getNext().getTb().getValor();
+        }
+        System.out.println("Esse é o ultimo");
+        return current.getTb().getValor();
+
+    }
+
     public Node getSelected(int sel) {
         TBlocos tb = new TBlocos(sel);
         Node newNode = first;
@@ -160,30 +181,21 @@ public class List {
         Node aux = this.first;
         if (aux == null) {
             System.out.println("Null");
-        }else{
+        } else {
             System.out.println("não null");
             System.out.println(aux.getTb().getValor());
             if (aux.getNext() != null) {
                 System.out.println("tem vizinho");
                 newNode.setNext(aux.getNext());
-                System.out.println("new Node é "+ newNode.getTb().getValor());
+                System.out.println("new Node é " + newNode.getTb().getValor());
                 aux.setNext(newNode);
-            }else{
+            } else {
                 aux.setNext(newNode);
                 this.setLast(newNode);
             }
-            
+
         }
-    
+
     }
-
-    
-
-
-
-
-
-
-
 
 }

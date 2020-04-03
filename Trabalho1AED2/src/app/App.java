@@ -64,27 +64,49 @@ public class App {
         }
 
     }
-
-    public static void sendAbove(List[] table, int val, int b) {
-        boolean sent = false;
-        while (sent != true) {
-            System.out.println("entra no loop");
-           if (!table[val].isLast(val)) {
-               System.out.println("falta remover ainda");
-               sent = true;
-               int outro = table[val].getLast().getTb().getValor();
-               TBlocos tb = new TBlocos(outro);
-               table[b].insertAt(tb);
-               table[val].removeNode(outro);
-               System.out.println("inseri no outro" + outro);
-               System.out.println("tem que sair só no else desse if aqui");
-               
-           }else{
-            sent = true;
-           }
-           
+    
+    public static void pileOver2(List[] table, int a, int b)
+    {
+        System.out.println("entrou");
+        if (!table[a].isEmpity()) {
+            System.out.println("n e´vazio");
+            int next;
+            boolean done = false;
+            while (done != true) {
+                System.out.println("entrou no loop");
+                if (!table[a].isLast(a)) {
+                    System.out.println("a n é o ultimo");
+                   next = table[a].getAfter(a);
+                   TBlocos tb = new TBlocos(next);
+                   table[b].insertLast(tb);
+                   table[a].removeNode(next);
+                }else{
+                    TBlocos tb = new TBlocos(a);
+                    table[b].insertLast(tb);
+                   table[a].removeNode(a);
+                    done = true;
+                }
+                
+            }
+            
         }
-
+    }
+    public static void sendAbove(List[] table, int a, int b) {
+        boolean sent = false;
+        int next;
+        if (!table[a].isEmpity()) {
+            //não pode estar vazia
+            if (!table[a].isLast(a)) {
+                //o ultimo não é a
+                
+                next = table[a].getAfter(a);
+                // System.out.println("hey "+next);
+                TBlocos tb = new TBlocos(b);
+                table[b].insertLast(tb);
+                table[a].removeNode(next);
+            }
+        }
+        
     }
 
     public static void insertAfter(List[] table, int a, int b, int pos)
@@ -103,7 +125,8 @@ public class App {
                 listB = i;
             }
         }
-        insertAfter(table, a, b,listA);
+        // insertAfter(table, a, b,listA);
+        sendAbove(table, a, b);
     }
 
     public static void pileOnto(int a, int b, List[] table) {
@@ -287,7 +310,7 @@ public class App {
         System.out.println("-----------------------");
         moveOver(1, 2, table);
         showAllLists(table);
-        pileOver(2, 0, table);
+        pileOver2(table, 2, 0);
         showAllLists(table);
 
     }
