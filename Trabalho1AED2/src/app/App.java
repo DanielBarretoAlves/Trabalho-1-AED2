@@ -50,31 +50,19 @@ public class App {
         }
     }// ------------------------------------------SHOWALLLIST
 
-    public static void cleanList(List[] table, int val) {
-
-        System.out.println("entrou");
-        for (int i = 0; i < table.length; i++) {
-            if (!table[i].isEmpity()){
-                // System.out.println("n é vazia");
-                if (table[i].getLast().getTb().getValor() != i) {
-                    System.out.println(i+ " tem um final diferente do index " +table[i].getLast().getTb().getValor());
-                    
-                    if (table[i].search(val)) {
-                        System.out.println("olha eu aqui " + val);
-                        System.out.println("Gatcha " +table[val].getLast().getTb().getValor());
-                        int back = table[val].getLast().getTb().getValor();
-                        TBlocos tb = new TBlocos(back);
-                        table[back].insertFirst(tb);
-                        System.out.println("- "+table[back].printList());
-                    }
-                }else{
-                   
-                }
+    public static void cleanList(List[] table, int val, int pos) {
+        boolean cleaned = false;
+        while (cleaned != true) {
+            if (table[val].getLast().getTb().getValor() != val) {
+                int posA = table[val].getLast().getTb().getValor();
+                table[val].removeNode(posA);
+                TBlocos tb = new TBlocos(posA);
+                table[posA].insertFirst(tb);
             }else{
-                System.out.println(i+ " é vaiza");
+                cleaned =true;
             }
         }
-
+        
     }
 
     public static void moveOver(int a, int b, List[] table) {
@@ -96,9 +84,11 @@ public class App {
                     table[i].removeNode(a);
                 }else{
                     System.out.println("A não é igual ao ultimo");
-                    int posIn= table[i].getLast().getTb().getValor();
+                    int pos= table[i].getLast().getTb().getValor();
                     table[i].getLast();
-                    // cleanList(table, a);
+                    cleanList(table, a, pos);
+                    table[i].removeNode(a);
+                    //casa que era antes e valor
 
 
 
@@ -166,7 +156,6 @@ public class App {
         // moveOver(1, 2, table);
         moveOver(1, 3, table);
         showAllLists(table);
-
         System.out.println("-----------------------");
 
         moveOver(3, 2, table);
