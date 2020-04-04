@@ -1,8 +1,5 @@
 package app;
 
-/**
- * No
- */
 public class No {
 
     private TBlocos tb;

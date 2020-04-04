@@ -13,7 +13,6 @@ public class App {
         FileWriter arquivo;
         String doc = "saida";
 
-		//Check 
 		File f = new File("src/app"+doc + ".txt");
 		if (f.exists() && !f.isDirectory()) {
 
@@ -46,13 +45,10 @@ public class App {
         try {
             File myObj = new File("src/app/arquivo1.txt");
             Scanner myReader = new Scanner(myObj);
-            // int index =0;
             while (myReader.hasNextLine()) {
 
                 String data = myReader.nextLine();
-                // System.out.println(data);
                 content += data + ";";
-                // return size;
 
             }
             myReader.close();
@@ -70,8 +66,6 @@ public class App {
         String[] transcript = file.split(";");
 
         size = Integer.parseInt(transcript[0]);
-        // System.out.println("Size: " +size);
-
         return size;
 
     }// -----------------------------------------------------------WORLD SIZE
@@ -79,7 +73,6 @@ public class App {
     public static String showAllLists(List[] list) {
         String content = "";
         for (int i = 0; i < list.length; i++) {
-            System.out.println(i + "|" + list[i].printList());
             content += i + "|" + list[i].printList()+"\n";
         }
         return content;
@@ -140,9 +133,7 @@ public class App {
     {
         int posA = getPos(table, a);
         int posB = getPos(table, b);
-        // Passo 1 tirar tudo de cima do a
         sendAllBack(table, a, posA);
-        // Passo 2 tirar tudo de cima do b
         sendAllBack(table, b, posB);
         TBlocos tb = new TBlocos(a);
         table[posB].insertLast(tb);
@@ -169,7 +160,6 @@ public class App {
                 // o ultimo não é a
 
                 next = table[a].getAfter(a);
-                // System.out.println("hey "+next);
                 TBlocos tb = new TBlocos(b);
                 table[b].insertLast(tb);
                 table[a].removeNode(next);
@@ -179,7 +169,6 @@ public class App {
     }
 
     public static void sendPile(List[] table, int target, int val, int goal) {
-        // System.out.println(table[target].getLast().getTb().getValor());
         TBlocos tb = new TBlocos(val);
         table[goal].insertLast(tb);
         while (table[target].getLast().getTb().getValor() != target) {
@@ -253,7 +242,6 @@ public class App {
         for (int i = 0; i < command.length; i++) {
             String[] test = command[i].split(" ");
             for (int j = 0; j < test.length; j++) {
-                // System.out.println(test[j]);
                 if (i == 0) {
                     action[i][0] = 9;
                 }
@@ -286,9 +274,11 @@ public class App {
                         action[i][2] = b;
                     }
                 } else if (test[j].contains("quit")) {
-
+                    
                     action[i][0] = 9;
+                    i = command.length;
                     break;
+                    
                 }
             }
         }
@@ -298,10 +288,6 @@ public class App {
 
     public static void main(String[] args) {
 
-        // TBlocos tb = new TBlocos(1);
-
-        // list.printList();
-        // getCommando(getFile());
         List[] table = new List[getWorldSize(getFile())];
         for (int i = 0; i < table.length; i++) {
             table[i] = new List();
@@ -309,46 +295,13 @@ public class App {
             table[i].insertLast(tb);
         }
 
-        //  moveOnto(table, 4, 0);
-        //  moveOnto(table, 1, 2);
-        //  moveOver(table, 2, 0);
-        //  moveOver(table, 3, 1);
-        // // showAllLists(table);
-        // pileOnto(table, 1, 0);
-        // showAllLists(table);
-
-        //------------------------------------------
          int[][] test = getCommando(getFile());
          readCommando(test, table);
-        //  showAllLists(table);
-        //----------------------------------------------
 
-        // System.out.println(getFile());
         createFile(showAllLists(table));
+        System.exit(0);
 
-        // for (int i = 0; i < test.length; i++) {
-        // for (int j = 0; j < 3; j++) {
-        // System.out.print(test[i][j]);
-        // }
-        // System.out.println(" ");
-        // }
-
+       
     }
 
 }
-
-// str1.contains("example")
-
-// String myStr = "Hello";
-// System.out.println(myStr.startsWith("Hel"));
-// System.out.println(myStr.startsWith("llo"));
-// System.out.println(myStr.startsWith("o"));
-// }
-// }
-
-// COMMAND TABLE
-// Move Onto = tudo que esta em cima dos dois volta
-// Move over = tudo que está em cima do A volta
-// Pile Onto = oq está no b volta
-// Pile over = poem a sobre b sem voltar ninguem
-
