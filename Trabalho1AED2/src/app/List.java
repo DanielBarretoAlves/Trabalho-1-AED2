@@ -35,6 +35,9 @@ public class List {
         this.qtd = qtd;
     }
 
+    //--------------------------------------------END OF GETTERS AND SETTERS------------------------------------
+
+    
     public void insertFirst(TBlocos tb)// ---------------------INSERT FIRST
     {
         Node newNode = new Node(tb);

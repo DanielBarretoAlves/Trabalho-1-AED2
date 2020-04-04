@@ -1,5 +1,5 @@
 package app;
-
+//--------------CODE BY DANIEL BARRETO ALVES
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class App {
 
+    //--------------------------------------------------------------------------CREATE FILES
     public static void createFile(String content)
     {
         FileWriter arquivo;
@@ -38,6 +39,8 @@ public class App {
 		}
     }
 
+
+    //--------------------------------------------------------------------------GET FILE
     public static String getFile() {
         String content = "";
 
@@ -61,6 +64,7 @@ public class App {
         return content;
     }
 
+    //-----------------------------------------------------------------------------GET WORLD SIZE
     public static int getWorldSize(String file) {
         int size = 0;
         String[] transcript = file.split(";");
@@ -70,6 +74,8 @@ public class App {
 
     }// -----------------------------------------------------------WORLD SIZE
 
+
+    //-----------------------------------------------------------------------------SHOW ALL LIST
     public static String showAllLists(List[] list) {
         String content = "";
         for (int i = 0; i < list.length; i++) {
@@ -78,6 +84,8 @@ public class App {
         return content;
     }// ------------------------------------------SHOWALLLIST
 
+
+    //-------------------------------------------------------------------------------CLEAN LIST
     public static void cleanList(List[] table, int val, int pos) {
         boolean cleaned = false;
         while (cleaned != true) {
@@ -93,6 +101,8 @@ public class App {
 
     }
 
+
+    //-------------------------------------------------------------------------------GET BIGGEST LIST
     public static int getBigggestList(List[] table)
     {
         int s = 0;
@@ -105,6 +115,8 @@ public class App {
         return s;
     }
 
+
+    //--------------------------------------------------------------------------GET POSITION
     public static int getPos(List[] table, int x) {
         int pos = 0;
         for (int i = 0; i < table.length; i++) {
@@ -115,6 +127,8 @@ public class App {
         return pos;
     }
 
+
+    //--------------------------------------------------------------------------SEND EVERYONE TO ORIGNINAL
     public static void sendAllBack(List[] table, int x, int target) {
 
         if (!table[target].isEmpity() && (!table[target].isLast(target))) {
@@ -129,6 +143,8 @@ public class App {
 
     }
 
+
+    
     public static void moveOnto(List[] table, int a, int b)// -----------MOVEONTO
     {
         int posA = getPos(table, a);
@@ -151,6 +167,7 @@ public class App {
         table[posA].removeNode(a);
     }
 
+    //--------------------------------------------------------------------------SEND ABOVE
     public static void sendAbove(List[] table, int a, int b) {
         boolean sent = false;
         int next;
@@ -168,6 +185,8 @@ public class App {
 
     }
 
+
+    //------------------------------------------------------------------------------------SEND A PILE
     public static void sendPile(List[] table, int target, int val, int goal) {
         TBlocos tb = new TBlocos(val);
         table[goal].insertLast(tb);
@@ -200,12 +219,15 @@ public class App {
 
     }
 
+    //-------------------------------------------------------------------------------INSERT AFTER
     public static void insertAfter(List[] table, int a, int b, int pos) {
         table[pos].removeNode(a);
         TBlocos tb = new TBlocos(a);
         table[b].insertAt(tb);
     }
 
+
+    //--------------------------------------------------------------------------------READ COMMANDOS
     public static void readCommando(int[][] commandos, List[] table) {
         for (int i = 0; i < commandos.length; i++) {
             for (int j = 0; j < 3; j++) {
@@ -236,6 +258,7 @@ public class App {
         }
     }
 
+    //------------------------------------------------------------------------------------GET COMMANDOS
     public static int[][] getCommando(String file) {
         String[] command = file.split(";");
         int[][] action = new int[command.length][3];
