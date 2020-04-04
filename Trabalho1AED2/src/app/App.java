@@ -2,22 +2,55 @@ package app;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class App {
+
+    public static void createFile(String content)
+    {
+        FileWriter arquivo;
+        String doc = "saida";
+
+		//Check 
+		File f = new File("src/app"+doc + ".txt");
+		if (f.exists() && !f.isDirectory()) {
+
+			try {
+				arquivo = new FileWriter(new File(doc+".txt"));
+				arquivo.write(content);
+				arquivo.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				arquivo = new FileWriter(new File(doc+".txt"));
+				arquivo.write(content);
+				arquivo.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+    }
 
     public static String getFile() {
         String content = "";
 
         // ---------------------------
         try {
-            File myObj = new File("src/app/file2.txt");
+            File myObj = new File("src/app/arquivo1.txt");
             Scanner myReader = new Scanner(myObj);
             // int index =0;
             while (myReader.hasNextLine()) {
 
                 String data = myReader.nextLine();
-                System.out.println(data);
+                // System.out.println(data);
                 content += data + ";";
                 // return size;
 
@@ -43,10 +76,13 @@ public class App {
 
     }// -----------------------------------------------------------WORLD SIZE
 
-    public static void showAllLists(List[] list) {
+    public static String showAllLists(List[] list) {
+        String content = "";
         for (int i = 0; i < list.length; i++) {
             System.out.println(i + "|" + list[i].printList());
+            content += i + "|" + list[i].printList()+"\n";
         }
+        return content;
     }// ------------------------------------------SHOWALLLIST
 
     public static void cleanList(List[] table, int val, int pos) {
@@ -143,7 +179,7 @@ public class App {
     }
 
     public static void sendPile(List[] table, int target, int val, int goal) {
-        System.out.println(table[target].getLast().getTb().getValor());
+        // System.out.println(table[target].getLast().getTb().getValor());
         TBlocos tb = new TBlocos(val);
         table[goal].insertLast(tb);
         while (table[target].getLast().getTb().getValor() != target) {
@@ -284,10 +320,11 @@ public class App {
         //------------------------------------------
          int[][] test = getCommando(getFile());
          readCommando(test, table);
-         showAllLists(table);
+        //  showAllLists(table);
         //----------------------------------------------
 
-        System.out.println(getFile());
+        // System.out.println(getFile());
+        createFile(showAllLists(table));
 
         // for (int i = 0; i < test.length; i++) {
         // for (int j = 0; j < 3; j++) {
