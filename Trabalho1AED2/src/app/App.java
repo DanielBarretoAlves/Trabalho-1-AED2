@@ -310,7 +310,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-
+        System.out.println("Welcome to my System");
         List[] table = new List[getWorldSize(getFile())];
         for (int i = 0; i < table.length; i++) {
             table[i] = new List();
